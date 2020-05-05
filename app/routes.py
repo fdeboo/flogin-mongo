@@ -8,9 +8,9 @@ from app import app
 @app.route('/')
 @app.route('/home')
 def index():
-    return "<h1>hello</h1>"
+    return render_template('home.html')
 
 @app.route('/about')
 def about():
-    return "<h1>about</h1>"
+    return render_template('about.html')
 
