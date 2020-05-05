@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, login_required, current_user, logout_user
 #from app.users import User
-#from app.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm
 from app import app
 
 
@@ -10,11 +10,14 @@ from app import app
 def index():
     return render_template('home.html')
 
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+
 @app.route('/register', methods=['GET', 'POST'])
-def registration():
-    return render_template('register.html')
+def register():
+    form = RegistrationForm()
+    return render_template('register.html', form=form)
 
