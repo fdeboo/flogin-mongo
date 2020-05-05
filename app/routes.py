@@ -14,3 +14,7 @@ def index():
 def about():
     return render_template('about.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def registration():
+    return render_template('register.html')
+
