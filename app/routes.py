@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash
-from werkzeug.security import generate_password_hash
-from flask_login import current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import current_user, login_user
 from app.modules import User
 from app.forms import RegistrationForm, LoginForm
 from app import app, mongo 
@@ -31,8 +31,19 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods = ['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
     form = LoginForm()
+    if form.validate_on_submit():
+        user = mongo.db.users.find_one({'email': form.email.data})
+        if user and check_password_hash(user['password'], form.password.data):
+            user_data = User(user['_id'], user['username'], user['email'], user['picture'])
+            login_user(user_data, remember=form.remember.data)
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('index'))
+        else:
+            flash('Login Unsuccessful. Please check email and password', 'danger')
     return render_template('login.html', form=form)
 
