@@ -25,8 +25,7 @@ def register():
     users = mongo.db.users
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data)
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
-        users.insert({'name': form.username.data, 'email': form.email.data, 'password': hashed_password})
+        users.insert({'username': form.username.data, 'email': form.email.data, 'password': hashed_password, 'picture': None})
         flash('You are now registered and can log in', 'success')
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
