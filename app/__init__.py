@@ -1,15 +1,17 @@
 import os
 from flask import Flask
 from config import Config
-from flask_pymongo import PyMongo
 from flask_login import LoginManager
+from flask_pymongo import PyMongo
+
 
 app = Flask(__name__)
 
 app.config.from_object(Config)
-mongo = PyMongo(app)
 login_manager = LoginManager(app)
-login_manager.login.view = 'login'
+#login_manager.login.view = 'login'
 login_manager.login_message_category = 'info'
+app.config['MONGO_URI'] = Config.MONGO_URI
+mongo = PyMongo(app)
 
-from app import routes
+from app import routes, modules
