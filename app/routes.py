@@ -35,3 +35,8 @@ def register():
         flash('That email already exists!', 'danger')
     return render_template('register.html', form=form)
 
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
