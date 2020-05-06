@@ -13,20 +13,17 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=[])
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
-
+    
     def validate_username(self, username):
-        if username.data != current_user.username:
-            user = mongo.db.users.find_one({'username': username.data})
-            if user:
-                raise ValidationError('That username is taken. Please choose a different one.')
+        user = mongo.db.users.find_one({'username': username.data})
+        if user:
+            raise ValidationError('That username is taken. Please choose a different one.')
 
     def validate_email(self, email):
-        if email.data != current_user.email:
-            user = mongo.db.users.find_one({'email': email.data})
-            if user:
-                raise ValidationError('That email is taken. Please choose a different one.')
+        user = mongo.db.users.find_one({'email': email.data})
+        if user:
+            raise ValidationError('That email is taken. Please choose a different one.')
 
-    
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
