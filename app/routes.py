@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user, logout_user
 from app.modules import User
 from app.forms import RegistrationForm, LoginForm
 from app import app, mongo 
